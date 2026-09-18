@@ -1,0 +1,12 @@
+# Frontend
+school-frontend/node_modules/
+school-frontend/dist/
+
+# Backend
+backend/target/
+backend/.idea/
+backend/*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
