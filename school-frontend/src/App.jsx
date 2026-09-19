@@ -27,6 +27,9 @@ import TeacherDashboard from './dashboard/teacher/TeacherDashboard'
 import teacherMenu from './dashboard/teacher/teacherMenu'
 import StudentDashboard from './dashboard/student/StudentDashboard'
 import studentMenu from './dashboard/student/studentMenu'
+import AdminStudents from './dashboard/admin/AdminStudents'
+
+
 import './App.css'
 
 function HomePage() {
@@ -72,6 +75,11 @@ function App() {
 
         <Route path="/student" element={<DashboardLayout role="Student" userName="Ramya" menuItems={studentMenu} />}>
           <Route index element={<StudentDashboard />} />
+        </Route>
+
+        <Route path="/admin" element={<DashboardLayout role="Admin" userName="Jason" menuItems={adminMenu} />}>
+        <Route index element={<AdminDashboard />} />
+        <Route path="students" element={<AdminStudents />} />
         </Route>
       </Routes>
       <Footer />

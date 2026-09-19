@@ -2097,3 +2097,61 @@ nav a.active-link::after {
 @media (max-width: 360px) {
   .role-chip { flex: 1 1 100%; }
 }
+
+.dash-page-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.dash-inline-form {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.dash-inline-form input,
+.dash-inline-form select {
+  padding: 9px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: inherit;
+}
+
+.dash-inline-form input:focus,
+.dash-inline-form select:focus {
+  outline: none;
+  border-color: #0B5D4B;
+}
+
+.dash-inline-form button {
+  grid-column: span 2;
+  border: none;
+}
+
+.dash-delete-btn {
+  background-color: #FBEBDD;
+  color: #C94040;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.dash-delete-btn:hover {
+  background-color: #f5d5c4;
+}
+
+@media (max-width: 700px) {
+  .dash-inline-form {
+    grid-template-columns: 1fr;
+  }
+  .dash-inline-form button {
+    grid-column: span 1;
+  }
+}
