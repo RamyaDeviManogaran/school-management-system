@@ -4,15 +4,56 @@ import { useNavigate } from 'react-router-dom'
 function LoginPage() {
   const [mode, setMode] = useState('login')
   const [role, setRole] = useState('student')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [fullName, setFullName] = useState('')
+  const [error, setError] = useState('')
   const navigate = useNavigate()
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    // Dummy login — routes straight to the matching dashboard.
-    // Will be replaced with a real auth check once the backend is connected.
-    if (role === 'student') navigate('/student')
-    if (role === 'teacher') navigate('/teacher')
-    if (role === 'admin') navigate('/admin')
+    setError('')
+
+    if (mode === 'login') {
+      try {
+        const response = await fetch('http://localhost:8080/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password }),
+        })
+        const data = await response.json()
+
+        if (data.success) {
+          // Route based on the REAL role returned from the database
+          const userRole = data.role.toLowerCase()
+          if (userRole === 'admin') navigate('/admin')
+          if (userRole === 'teacher') navigate('/teacher')
+          if (userRole === 'student') navigate('/student')
+        } else {
+          setError(data.message || 'Login failed')
+        }
+      } catch (err) {
+        setError('Could not connect to the server')
+      }
+    } else {
+      // Register mode
+      try {
+        const response = await fetch('http://localhost:8080/api/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ fullName, email, password, role: role.toUpperCase() }),
+        })
+
+        if (response.ok) {
+          alert('Registration successful! Please log in.')
+          setMode('login')
+        } else {
+          setError('Registration failed')
+        }
+      } catch (err) {
+        setError('Could not connect to the server')
+      }
+    }
   }
 
   return (
@@ -36,11 +77,14 @@ function LoginPage() {
           <button className={role === 'admin' ? 'role-chip active' : 'role-chip'} onClick={() => setRole('admin')}>🛡️ Admin</button>
         </div>
 
+        {error && <p style={{ color: '#C94040', fontSize: '13px', marginBottom: '12px' }}>{error}</p>}
+
         <form className="auth-form" onSubmit={handleSubmit}>
-          {mode === 'register' && <input type="text" placeholder="Full Name" required />}
-          <input type="email" placeholder="Email Address" required />
-          <input type="password" placeholder="Password" required />
-          {mode === 'register' && <input type="password" placeholder="Confirm Password" required />}
+          {mode === 'register' && (
+            <input type="text" placeholder="Full Name" value={fullName} onChange={(e) => setFullName(e.target.value)} required />
+          )}
+          <input type="email" placeholder="Email Address" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
 
           <button type="submit" className="btn-primary auth-submit">
             {mode === 'login' ? 'Login' : 'Create Account'}
