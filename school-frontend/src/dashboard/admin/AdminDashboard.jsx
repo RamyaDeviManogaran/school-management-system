@@ -3,6 +3,13 @@ import { useState, useEffect } from 'react'
 function AdminDashboard() {
   const [enquiries, setEnquiries] = useState([])
   const [loading, setLoading] = useState(true)
+  const [teacherCount, setTeacherCount] = useState(0)
+const [studentCount, setStudentCount] = useState(0)
+
+useEffect(() => {
+  fetch('http://localhost:8080/api/teachers').then(r => r.json()).then(d => setTeacherCount(d.length)).catch(() => {})
+  fetch('http://localhost:8080/api/students').then(r => r.json()).then(d => setStudentCount(d.length)).catch(() => {})
+}, [])
 
   useEffect(() => {
     fetch('http://localhost:8080/api/admissions')
@@ -18,8 +25,8 @@ function AdminDashboard() {
   }, [])
 
   const stats = [
-    { label: 'Students', value: '1,240', icon: '🎓', color: 'stat-blue' },
-    { label: 'Teachers', value: '86', icon: '👩‍🏫', color: 'stat-green' },
+    { label: 'Students', value: studentCount, icon: '🎓', color: 'stat-blue' },
+    { label: 'Teachers', value: teacherCount, icon: '👩‍🏫', color: 'stat-green' },
     { label: 'Admissions', value: enquiries.length, icon: '📥', color: 'stat-orange' },
     { label: 'This Year Fees', value: '₹42.6L', icon: '💰', color: 'stat-purple' },
   ]

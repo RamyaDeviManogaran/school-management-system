@@ -28,6 +28,7 @@ import teacherMenu from './dashboard/teacher/teacherMenu'
 import StudentDashboard from './dashboard/student/StudentDashboard'
 import studentMenu from './dashboard/student/studentMenu'
 import AdminStudents from './dashboard/admin/AdminStudents'
+import AdminTeachers from './dashboard/admin/AdminTeachers'
 
 
 import './App.css'
@@ -80,6 +81,7 @@ function App() {
         <Route path="/admin" element={<DashboardLayout role="Admin" userName="Jason" menuItems={adminMenu} />}>
         <Route index element={<AdminDashboard />} />
         <Route path="students" element={<AdminStudents />} />
+        <Route path="teachers" element={<AdminTeachers />} />
         </Route>
       </Routes>
       <Footer />

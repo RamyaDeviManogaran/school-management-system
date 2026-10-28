@@ -10,3 +10,6 @@ backend/*.iml
 # OS files
 .DS_Store
 Thumbs.db
+
+backend1/
+backend/src/main/resources/application.properties
